@@ -30,7 +30,7 @@ Entities:
         path: "assets/fonts/Antonio-Bold.ttf"
         size: 48
       text: Sprite Demo
-      align: 0
+      alignment: 2
   - 2:
     Canis::RectTransformComponent:
       active: true

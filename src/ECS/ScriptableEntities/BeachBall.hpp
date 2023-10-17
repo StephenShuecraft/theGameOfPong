@@ -23,16 +23,6 @@ public:
     {
         m_direction = glm::vec2(1.0f, 0.4f);
         m_speed = 150.0f;
-        /*auto& sprite = GetComponent<Canis::Sprite2DComponent>();
-            GetSpriteFromTextureAtlas(
-                sprite,
-                m_animIndex,
-                0,
-                48,
-                50,
-                true,
-                false
-            );*/
     }
     
     void OnDestroy()
@@ -41,30 +31,7 @@ public:
     }
 
     void OnUpdate(float _dt)
-    {        
-        /*m_countDown -= _dt;
-
-        if (m_countDown < 0.0f)
-        {
-            m_countDown = m_timeBetweenAnimation;
-
-            m_animIndex++;
-
-            if (m_animIndex > 5)
-                m_animIndex = 0;
-
-            auto& sprite = GetComponent<Canis::Sprite2DComponent>();
-            GetSpriteFromTextureAtlas(
-                sprite,
-                m_animIndex,
-                0,
-                48,
-                50,
-                true,
-                true
-            );
-        }*/
-
+    {
         auto& rect = GetComponent<Canis::RectTransformComponent>();
 
         float halfSizeX = rect.size.x/2.0f;
@@ -89,15 +56,18 @@ public:
         if (GetInputManager().JustPressedKey(SDLK_d))
         {
             ((Canis::SceneManager *)m_Entity.scene->sceneManager)->Instantiate("assets/prefebs/test_character.scene");
-            /*auto e = CreateEntity();
-            auto& rectTransform = e.AddComponent<Canis::RectTransformComponent>();
-            rectTransform = rect;
-            auto& color = e.AddComponent<Canis::ColorComponent>();
-            color = GetComponent<Canis::ColorComponent>();
-            auto& sprite = e.AddComponent<Canis::Sprite2DComponent>();
-            sprite = GetComponent<Canis::Sprite2DComponent>();
-            auto& spriteAnimation = e.AddComponent<Canis::SpriteAnimationComponent>();
-            spriteAnimation = GetComponent<Canis::SpriteAnimationComponent>();*/
         }
     }
 };
+
+bool DecodeBeachBall(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "BeachBall")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<BeachBall>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}

@@ -1,6 +1,8 @@
 #pragma once
+#include <SDL_keyboard.h>
 #include <string>
 #include <Canis/ScriptableEntity.hpp>
+#include <Canis/ECS/Components/RectTransformComponent.hpp>
 #include <Canis/ECS/Components/Camera2DComponent.hpp>
 
 class DebugCamera2D : public Canis::ScriptableEntity
@@ -29,6 +31,16 @@ public:
         const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
         auto& camera2D = GetComponent<Canis::Camera2DComponent>();
+
+        if (!GetWindow().GetMouseLock())
+        {
+            auto player = m_Entity.GetEntityWithTag("Player");
+            if(player.entityHandle != entt::null)
+            {
+                auto& playerTransform = player.GetComponent<Canis::RectTransformComponent>();
+                camera2D.position = playerTransform.position;
+            }
+        }
         
         if (keystate[SDL_SCANCODE_W] && GetWindow().GetMouseLock())
         {
@@ -61,7 +73,7 @@ public:
                 camera2D.scale = 0.01f;
         }
 
-        if (GetInputManager().JustPressedKey(SDLK_ESCAPE))
+        if (GetInputManager().JustPressedKey(SDLK_F8))
         {
             GetWindow().MouseLock(!GetWindow().GetMouseLock());
         }
@@ -69,7 +81,19 @@ public:
         if (GetInputManager().JustPressedKey(SDLK_F5))
         {
             Canis::Log("Load Scene");
-            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->Load("SpriteDemo");
+            ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
         }
     }
 };
+
+bool DecodeDebugCamera2D(const std::string &_name, Canis::Entity &_entity)
+{
+    if (_name == "DebugCamera2D")
+    {
+        Canis::ScriptComponent scriptComponent = {};
+        scriptComponent.Bind<DebugCamera2D>();
+        _entity.AddComponent<Canis::ScriptComponent>(scriptComponent);
+        return true;
+    }
+    return false;
+}
