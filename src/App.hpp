@@ -30,33 +30,19 @@ private:
     void LateUpdate();
     void FixedUpdate(float dt);
     void InputUpdate();
-
     void LoadECS();
 
-    Canis::SceneManager sceneManager;
+    Canis::SceneManager m_sceneManager;
 
-    AppState appState = AppState::OFF;
+    AppState m_appState = AppState::OFF;
 
-    
+    Canis::Window m_window;
+    Canis::Time m_time;
+    Canis::InputManager m_inputManager;
+    Canis::Camera m_camera = Canis::Camera(glm::vec3(0.0f, 0.15f, -0.3f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW+90.0f,Canis::PITCH+0.0f);
+    Canis::AssetManager m_assetManager;
 
-    Canis::Window window;
+    double m_deltaTime;
 
-    Canis::Time time;
-
-    Canis::InputManager inputManager;
-
-    Canis::Camera camera = Canis::Camera(glm::vec3(0.0f, 0.15f, -0.3f),glm::vec3(0.0f, 1.0f, 0.0f),Canis::YAW+90.0f,Canis::PITCH+0.0f);
-
-    Canis::AssetManager assetManager;
-
-    float lastXMousePos;
-    float lastYMousePos;
-    
-   
-
-    high_resolution_clock::time_point currentTime;
-    high_resolution_clock::time_point previousTime;
-    double deltaTime;
-
-    unsigned int seed;
+    unsigned int m_seed;
 };
