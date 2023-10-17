@@ -1,1 +1,1 @@
-# canis-testing
+# canis-demos

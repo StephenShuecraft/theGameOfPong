@@ -78,8 +78,6 @@ void App::Run()
 		seed
 	);
 
-	Canis::Log("Q App 0");
-
 	Load();
 
 	appState = AppState::ON;
@@ -89,9 +87,6 @@ void App::Run()
 void App::Load()
 {
 	sceneManager.ForceLoad("SpriteDemo");
-
-	// start timer
-	previousTime = high_resolution_clock::now();
 }
 void App::Loop()
 {
