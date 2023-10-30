@@ -1,4 +1,4 @@
-Scene: SpriteDemo
+Scene: sprite_demo
 Systems:
   - Canis::ButtonSystem
   - Canis::CollisionSystem2D
