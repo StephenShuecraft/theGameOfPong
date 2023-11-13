@@ -15,7 +15,7 @@ public:
 
     void OnReady()
     {
-
+        
     }
     
     void OnDestroy()
@@ -27,6 +27,7 @@ public:
     {
         const float CAMERA_SPEED = 20.0f;
         const float SCALE_SPEED = 0.1f;
+        bool moved = false;
 
         const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
@@ -45,25 +46,30 @@ public:
         if (keystate[SDL_SCANCODE_W] && GetWindow().GetMouseLock())
         {
             camera2D.position.y = camera2D.position.y + (CAMERA_SPEED * _dt);
+            moved = true;
         }
         if (keystate[SDL_SCANCODE_S] && GetWindow().GetMouseLock())
         {
             camera2D.position.y -= CAMERA_SPEED * _dt;
+            moved = true;
         }
 
         if (keystate[SDL_SCANCODE_A] && GetWindow().GetMouseLock())
         {
             camera2D.position.x -= CAMERA_SPEED * _dt;
+            moved = true;
         }
 
         if (keystate[SDL_SCANCODE_D] && GetWindow().GetMouseLock())
         {
             camera2D.position.x += CAMERA_SPEED * _dt;
+            moved = true;
         }
 
         if (keystate[SDL_SCANCODE_Q] && GetWindow().GetMouseLock())
         {
             camera2D.scale += SCALE_SPEED * _dt;
+            moved = true;
         }
 
         if (keystate[SDL_SCANCODE_E] && GetWindow().GetMouseLock())
@@ -82,6 +88,11 @@ public:
         {
             Canis::Log("Load Scene");
             ((Canis::SceneManager*)m_Entity.scene->sceneManager)->HotReload();
+        }
+
+        if (moved)
+        {
+            Canis::Log("x: " + std::to_string(camera2D.position.x) + " y: " + std::to_string(camera2D.position.y));
         }
     }
 };
