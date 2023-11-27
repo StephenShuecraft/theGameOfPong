@@ -30,7 +30,7 @@ Entities:
         path: "assets/fonts/Antonio-Bold.ttf"
         size: 48
       text: Sprite Demo
-      alignment: 2
+      alignment: 0
   - 2:
     Canis::RectTransformComponent:
       active: true
@@ -58,4 +58,4 @@ Entities:
       radius: 128.0
       layer: 0
       mask: 0
-    Canis::ScriptComponent: GameOfLifeLoader
+    Canis::ScriptComponent: BeachBall
