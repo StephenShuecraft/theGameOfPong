@@ -1,0 +1,2 @@
+shader: assets/shaders/shadow_mapping
+albedo: assets/textures/container.png

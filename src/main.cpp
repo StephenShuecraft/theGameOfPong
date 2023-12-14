@@ -17,6 +17,7 @@
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
 #include "ECS/ScriptableEntities/GameOfLifeLoader.hpp"
+#include "ECS/ScriptableEntities/SpawnCube.hpp"
 
 #include "ECS/Systems/GameOfLifeSystem.hpp"
 
@@ -40,6 +41,7 @@ int main(int argc, char* argv[])
     app.AddDecodeScriptableEntity(DecodeDebugCamera2D);
     app.AddDecodeScriptableEntity(DecodeBeachBall);
     app.AddDecodeScriptableEntity(DecodeGameOfLifeLoader);
+    app.AddDecodeScriptableEntity(DecodeSpawnCube);
 
     // decode component
     app.AddDecodeComponent(Canis::DecodeTransformComponent);
