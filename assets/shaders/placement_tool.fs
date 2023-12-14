@@ -41,8 +41,15 @@ uniform sampler2D SCREENTEXTURE;
 uniform float TIME;
 uniform vec2 distortion;
 
-const float gamma = 2.2;
+uniform float MINRANGE;
+uniform float RANGE;
+uniform float RANGEBONUS;
+uniform vec4 RANGEBONUSCOLOR;
 
+in vec3 centerPos;
+
+const float gamma = 2.2;
+vec4 targetColor;
 vec3 emission;
 
 vec3 lerp(vec3 _min, vec3 _max, float _fraction);
@@ -55,7 +62,22 @@ float rand(vec2 co)
 }
 
 void main()
-{           
+{
+    targetColor = COLOR;
+    if (MINRANGE > 0.0)
+    {
+        if (distance(fs_in.FragPos, centerPos) < MINRANGE)
+        {
+            discard;
+        }
+    }
+    if (RANGEBONUS > 0.0f)
+    {
+        if (distance(fs_in.FragPos, centerPos) > RANGE)
+        {
+            targetColor = RANGEBONUSCOLOR;
+        }
+    }
     // properties
     emission = texture(material.emission, fs_in.TexCoords).rgb;
     vec3 norm = normalize(fs_in.Normal);
@@ -66,7 +88,7 @@ void main()
         dirResult = CalcDirLight(dirLight, norm, viewDir);
 
     // alpha
-    float alpha = min(COLOR.a, texture(material.diffuse, fs_in.TexCoords).a);
+    float alpha = min(targetColor.a, texture(material.diffuse, fs_in.TexCoords).a);
 
     vec3 result = dirResult;
     //vec3 result = pow(dirResult, vec3(1.0 / gamma));
@@ -145,8 +167,8 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // combine results
-    vec3 ambient = light.ambient * (vec3(COLOR) * vec3(texture(material.diffuse, fs_in.TexCoords)));
-    vec3 diffuse = light.diffuse * diff * (vec3(COLOR) * vec3(texture(material.diffuse, fs_in.TexCoords)));
+    vec3 ambient = light.ambient * (vec3(targetColor) * vec3(texture(material.diffuse, fs_in.TexCoords)));
+    vec3 diffuse = light.diffuse * diff * (vec3(targetColor) * vec3(texture(material.diffuse, fs_in.TexCoords)));
     vec3 specular = light.specular * spec * vec3(texture(material.specular, fs_in.TexCoords));
 
     float shadow = ShadowCalculation(fs_in.FragPosLightSpace) - length(emission);

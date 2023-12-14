@@ -1,0 +1,16 @@
+Scene: 3d_demo
+Systems:
+  - Canis::ButtonSystem
+RenderSystems:
+  - Canis::RenderMeshWithShadowSystem
+Entities:
+  - 0:
+    Canis::TransformComponent:
+      active: true
+      position: [0.0, 0.0, 0.0]
+      rotation: [0.0, 0.0, 0.0]
+      scale: [1.0, 1.0, 1.0]
+    Canis::DirectionalLightComponent:
+      ambient: [0.1, 0.1, 0.1]
+      diffuse: [0.961, 0.953, 0.863]
+      specular: [0.6, 0.6, 0.6]

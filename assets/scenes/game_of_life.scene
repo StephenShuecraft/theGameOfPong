@@ -36,3 +36,4 @@ Entities:
   - 2:
     Canis::TagComponent: Boards
     Canis::ScriptComponent: GameOfLifeLoader
+  

@@ -17,6 +17,8 @@ uniform mat4 view;
 uniform mat4 MODEL;
 uniform mat4 lightSpaceMatrix;
 
+out vec3 centerPos;
+
 void main()
 {
     vs_out.FragPos = vec3(MODEL * vec4(aPos, 1.0));
@@ -24,4 +26,5 @@ void main()
     vs_out.TexCoords = aTexCoords;
     vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragPos, 1.0);
     gl_Position = projection * view * MODEL * vec4(aPos, 1.0);
+    centerPos = vec3(MODEL * vec4(0.0, 0.0, 0.0, 1.0));
 }

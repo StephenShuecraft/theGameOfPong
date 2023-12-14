@@ -2,6 +2,7 @@
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 layout (location = 2) in vec2 aTexCoords;
+layout (location = 3) in mat4 MODELL;
 
 out vec2 TexCoords;
 
@@ -19,9 +20,9 @@ uniform mat4 lightSpaceMatrix;
 
 void main()
 {
-    vs_out.FragPos = vec3(MODEL * vec4(aPos, 1.0));
-    vs_out.Normal = transpose(inverse(mat3(MODEL))) * aNormal;
+    vs_out.FragPos = vec3(MODELL * vec4(aPos, 1.0));
+    vs_out.Normal = transpose(inverse(mat3(MODELL))) * aNormal;
     vs_out.TexCoords = aTexCoords;
     vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragPos, 1.0);
-    gl_Position = projection * view * MODEL * vec4(aPos, 1.0);
+    gl_Position = projection * view * MODELL * vec4(aPos, 1.0);
 }

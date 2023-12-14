@@ -22,6 +22,7 @@ in VS_OUT {
     vec3 Normal;
     vec2 TexCoords;
     vec4 FragPosLightSpace;
+    vec2 FragUV;
 } fs_in;
 
 uniform sampler2D shadowMap;
@@ -37,10 +38,11 @@ uniform Material material;
 uniform bool hdr;
 uniform float exposure;
 
+uniform sampler2D NOISE;
 uniform sampler2D SCREENTEXTURE;
 uniform float TIME;
-uniform vec2 distortion;
 
+const vec2 distortion = vec2(0.002);
 const float gamma = 2.2;
 
 vec3 emission;
@@ -89,7 +91,23 @@ void main()
         }
     }
 
-    FragColor = vec4(result, alpha);
+    // Calculate noise offsets based on UV and TIME
+    //float noiseY = rand(vec2(0.0, TIME * 0.001));
+    //float noiseX = rand(vec2(TIME * 0.001, noiseY));
+
+    // Calculate distortion offsets using noise
+    //vec2 distortedTexCoord = vec2(noiseX, noiseY) * 2.0 - 1.0;
+    //distortedTexCoord *= distortion;
+    vec2 time = vec2(TIME, TIME);
+    vec2 noiseOffset = (
+        texture(NOISE, fs_in.FragUV.xy + (time * vec2(0.34,0.12))).xy +
+        texture(NOISE, fs_in.FragUV.xy + (time * vec2(0.13,0.26))).xz)
+         * vec2(0.01, 0.01);
+    vec4 screenColor = texture(SCREENTEXTURE, fs_in.FragUV.xy + (noiseOffset));// + distortedTexCoord);
+    screenColor *= 1 - alpha;
+    result *= alpha;
+    FragColor = screenColor + vec4(result, 1.0); 
+    //FragColor = vec4(texture(NOISE, fs_in.FragUV.xy + (TIME * 0.04)).rgb, 1.0);
 }
 
 vec3 lerp(vec3 _min, vec3 _max, float _fraction)

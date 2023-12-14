@@ -12,6 +12,7 @@
 #include <Canis/ECS/Systems/SpriteAnimationSystem.hpp>
 #include <Canis/ECS/Systems/CollisionSystem2D.hpp>
 #include <Canis/ECS/Systems/ButtonSystem.hpp>
+#include <Canis/ECS/Systems/RenderMeshWithShadowSystem.hpp>
 
 #include "ECS/ScriptableEntities/DebugCamera2D.hpp"
 #include "ECS/ScriptableEntities/BeachBall.hpp"
@@ -33,6 +34,7 @@ int main(int argc, char* argv[])
     app.AddDecodeRenderSystem(Canis::DecodeRenderHUDSystem);
     app.AddDecodeRenderSystem(Canis::DecodeRenderTextSystem);
     app.AddDecodeRenderSystem(Canis::DecodeSpriteRenderer2DSystem);
+    app.AddDecodeRenderSystem(Canis::DecodeRenderMeshWithShadowSystem);
 
     // decode scriptable entities
     app.AddDecodeScriptableEntity(DecodeDebugCamera2D);
@@ -40,6 +42,8 @@ int main(int argc, char* argv[])
     app.AddDecodeScriptableEntity(DecodeGameOfLifeLoader);
 
     // decode component
+    app.AddDecodeComponent(Canis::DecodeTransformComponent);
+    app.AddDecodeComponent(Canis::DecodeDirectionalLightComponent);
     app.AddDecodeComponent(Canis::DecodeTagComponent);
     app.AddDecodeComponent(Canis::DecodeCamera2DComponent);
     app.AddDecodeComponent(Canis::DecodeRectTransformComponent);
@@ -53,8 +57,9 @@ int main(int argc, char* argv[])
 
     app.AddScene(new Canis::Scene("sprite_demo", "assets/scenes/sprite_demo.scene"));
     app.AddScene(new Canis::Scene("game_of_life", "assets/scenes/game_of_life.scene"));
+    app.AddScene(new Canis::Scene("3d_demo", "assets/scenes/3d_demo.scene"));
 
-    app.Run("Canis Demos", "game_of_life");
+    app.Run("Canis Demos", "3d_demo");
 
     return 0;
 }

@@ -76,15 +76,20 @@ void main()
     // this fragment's final color.
     // == =====================================================
     // phase 1: directional lighting
-    vec3 result;
+
+    vec3 dirResult;
     if (numDirLights > 0)
-        result = CalcDirLight(dirLight, norm, viewDir);
+        dirResult = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
+    vec3 pointResult;
     for(int i = 0; i < numPointLights; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
+        pointResult += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
     // phase 3: spot light
+    vec3 spotResult;
     for(int i = 0; i < numSpotLights; i++)
-        result += CalcSpotLight(spotLight[i], norm, FragPos, viewDir);
+        spotResult += CalcSpotLight(spotLight[i], norm, FragPos, viewDir);
+
+    vec3 result = dirResult + pointResult + spotResult;
 
     float alpha = min(color.a, texture(material.diffuse, TexCoords).a);
     
