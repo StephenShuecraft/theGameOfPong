@@ -27,8 +27,10 @@ public:
         Canis::Entity emptyParent = CreateEntity();
         emptyParent.AddComponent<Canis::TransformComponent>(t);
         DecodeRotate("Rotate", emptyParent);
+        
 
         Canis::TransformComponent transform;
+        transform.position.x += 3;
         Canis::ColorComponent color;
         Canis::MeshComponent mesh;
         Canis::SphereColliderComponent collider;
@@ -42,7 +44,7 @@ public:
         cube.AddComponent<Canis::MeshComponent>(mesh);
         cube.AddComponent<Canis::SphereColliderComponent>(collider);
 
-        GetScene().HierarchyAdd(emptyParent, cube);
+        cube.SetParent(emptyParent);
     }
     
     void OnDestroy()

@@ -55,7 +55,7 @@ public:
         
         if (GetInputManager().JustPressedKey(SDLK_d))
         {
-            ((Canis::SceneManager *)m_Entity.scene->sceneManager)->Instantiate("assets/prefebs/test_character.scene");
+            ((Canis::SceneManager *)entity.scene->sceneManager)->Instantiate("assets/prefebs/test_character.scene");
         }
     }
 };

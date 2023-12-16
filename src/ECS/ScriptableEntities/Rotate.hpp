@@ -28,12 +28,7 @@ public:
 
     void OnUpdate(float _dt)
     {
-        Canis::TransformComponent& transform = GetComponent<Canis::TransformComponent>();
-
-        transform.rotation.y += glm::radians(360 * _dt);
-        transform.rotation.x += glm::radians(360 * _dt);
-
-        transform.isDirty = true;
+        entity.Rotate(glm::vec3(0.0f, glm::radians(3600 * _dt), 0.0f));
     }
 };
 
