@@ -35,6 +35,7 @@ uniform int numDirLights;
 uniform DirLight dirLight;
 uniform Material material;
 uniform bool hdr;
+uniform bool USEEMISSION;
 uniform float exposure;
 
 uniform sampler2D SCREENTEXTURE;
@@ -80,12 +81,15 @@ void main()
         BrightColor = vec4(0.0, 0.0, 0.0, alpha);
     }
 
-    if (emission.r > 0.0)
+    if (USEEMISSION)
     {
-        if (EMISSIONUSINGALBEDOINTESITY > 0.0) {
-            BrightColor = vec4(EMISSIONUSINGALBEDOINTESITY * result * emission, 1.0);
-        } else {
-            BrightColor = vec4(EMISSION * emission, 1.0);
+        if (emission.r > 0.0)
+        {
+            if (EMISSIONUSINGALBEDOINTESITY > 0.0) {
+                BrightColor = vec4(EMISSIONUSINGALBEDOINTESITY * result * emission, 1.0);
+            } else {
+                BrightColor = vec4(EMISSION * emission, 1.0);
+            }
         }
     }
 
