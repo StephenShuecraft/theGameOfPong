@@ -44,6 +44,28 @@ public:
         DecodeRotate("Rotate", cube);
 
         cube.SetParent(emptyParent);
+
+        Canis::Entity smallCube = CreateEntity();
+        smallCube.AddComponent<Canis::TransformComponent>(transform);
+        smallCube.AddComponent<Canis::ColorComponent>(color);
+        smallCube.AddComponent<Canis::MeshComponent>(mesh);
+        smallCube.AddComponent<Canis::SphereColliderComponent>(collider);
+
+        smallCube.SetPosition(glm::vec3(0.5f));
+        smallCube.SetScale(glm::vec3(0.5f));
+
+        smallCube.SetParent(cube);
+
+        Canis::Entity smallSmallCube = CreateEntity();
+        smallSmallCube.AddComponent<Canis::TransformComponent>(transform);
+        smallSmallCube.AddComponent<Canis::ColorComponent>(color);
+        smallSmallCube.AddComponent<Canis::MeshComponent>(mesh);
+        smallSmallCube.AddComponent<Canis::SphereColliderComponent>(collider);
+
+        smallSmallCube.SetPosition(glm::vec3(0.5f));
+        smallSmallCube.SetScale(glm::vec3(0.5f));
+
+        smallSmallCube.SetParent(smallCube);
     }
     
     void OnDestroy()

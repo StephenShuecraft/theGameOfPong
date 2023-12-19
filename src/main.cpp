@@ -19,6 +19,7 @@
 #include "ECS/ScriptableEntities/GameOfLifeLoader.hpp"
 #include "ECS/ScriptableEntities/SpawnCube.hpp"
 #include "ECS/ScriptableEntities/FlyCam.hpp"
+#include "ECS/ScriptableEntities/FPSCounter.hpp"
 
 #include "ECS/Systems/GameOfLifeSystem.hpp"
 
@@ -44,6 +45,7 @@ int main(int argc, char* argv[])
     app.AddDecodeScriptableEntity(DecodeGameOfLifeLoader);
     app.AddDecodeScriptableEntity(DecodeSpawnCube);
     app.AddDecodeScriptableEntity(DecodeFlyCam);
+    app.AddDecodeScriptableEntity(DecodeFPSCounter);
 
     // decode component
     app.AddDecodeComponent(Canis::DecodeTransformComponent);
