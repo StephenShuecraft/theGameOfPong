@@ -9,6 +9,7 @@
 #include <Canis/ECS/Components/SphereColliderComponent.hpp>
 
 #include "Rotate.hpp"
+#include "LookAtTarget.hpp"
 
 class SpawnCube : public Canis::ScriptableEntity
 {
@@ -21,6 +22,7 @@ public:
     void OnReady()
     {
         Canis::TransformComponent t;
+        t.registry = &(GetScene().entityRegistry);
 
         Canis::Entity emptyParent = CreateEntity();
         emptyParent.AddComponent<Canis::TransformComponent>(t);
@@ -28,8 +30,8 @@ public:
         
 
         Canis::TransformComponent transform;
+        transform.registry = &(GetScene().entityRegistry);
         transform.position.x += 3;
-        Canis::ColorComponent color;
         Canis::MeshComponent mesh;
         Canis::SphereColliderComponent collider;
 
@@ -38,7 +40,7 @@ public:
 
         Canis::Entity cube = CreateEntity();
         cube.AddComponent<Canis::TransformComponent>(transform);
-        cube.AddComponent<Canis::ColorComponent>(color);
+        cube.AddComponent<Canis::ColorComponent>();
         cube.AddComponent<Canis::MeshComponent>(mesh);
         cube.AddComponent<Canis::SphereColliderComponent>(collider);
         DecodeRotate("Rotate", cube);
@@ -47,7 +49,7 @@ public:
 
         Canis::Entity smallCube = CreateEntity();
         smallCube.AddComponent<Canis::TransformComponent>(transform);
-        smallCube.AddComponent<Canis::ColorComponent>(color);
+        smallCube.AddComponent<Canis::ColorComponent>();
         smallCube.AddComponent<Canis::MeshComponent>(mesh);
         smallCube.AddComponent<Canis::SphereColliderComponent>(collider);
 
@@ -58,7 +60,7 @@ public:
 
         Canis::Entity smallSmallCube = CreateEntity();
         smallSmallCube.AddComponent<Canis::TransformComponent>(transform);
-        smallSmallCube.AddComponent<Canis::ColorComponent>(color);
+        smallSmallCube.AddComponent<Canis::ColorComponent>();
         smallSmallCube.AddComponent<Canis::MeshComponent>(mesh);
         smallSmallCube.AddComponent<Canis::SphereColliderComponent>(collider);
 
@@ -66,6 +68,28 @@ public:
         smallSmallCube.SetScale(glm::vec3(0.5f));
 
         smallSmallCube.SetParent(smallCube);
+
+        {
+            Canis::TransformComponent tr;
+            tr.registry = &(GetScene().entityRegistry);    
+
+            mesh.id = Canis::AssetManager::LoadModel("assets/models/monkey.obj");        
+
+            Canis::Entity c = CreateEntity();
+            c.AddComponent<Canis::TransformComponent>(tr);
+            c.AddComponent<Canis::ColorComponent>();
+            c.AddComponent<Canis::MeshComponent>(mesh);
+            c.AddComponent<Canis::SphereColliderComponent>(collider);
+
+            DecodeLookAtTarget("LookAtTarget", c);
+
+            Canis::ScriptComponent& sc = c.GetComponent<Canis::ScriptComponent>();
+            sc.Instance = sc.InstantiateScript();
+            sc.Instance->entity = c;
+            sc.Instance->OnCreate();
+            
+            static_cast<LookAtTarget*>(sc.Instance)->target = cube;
+        }
     }
     
     void OnDestroy()

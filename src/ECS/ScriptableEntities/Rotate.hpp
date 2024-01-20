@@ -28,7 +28,7 @@ public:
 
     void OnUpdate(float _dt)
     {
-        entity.Rotate(glm::vec3(0.0f, glm::radians(3600 * _dt), 0.0f));
+        entity.Rotate(glm::vec3(glm::radians(30 * _dt), glm::radians(30 * _dt), glm::radians(30 * _dt)));
     }
 };
 

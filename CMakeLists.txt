@@ -1,9 +1,22 @@
 cmake_minimum_required(VERSION 3.18)
-project(canis_demos)
+project(canis_demo)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_SOURCE_DIR}/dist/${CMAKE_SYSTEM_NAME}>)
 set(ASSETS_DIR_NAME assets)
+
+add_definitions(
+    -c
+    #-msse2
+    #-mavx
+    #-mavx2
+    #-mavx512vl
+    #-mavx512f
+    #-march=skylake-avx512
+    #-O
+    #-ftime-report
+    #-Ofast
+)
 
 add_subdirectory(external/canis)
 
@@ -13,10 +26,17 @@ file(GLOB_RECURSE SRC_HEADERS src/*.h*)
 add_executable(${PROJECT_NAME} ${SRC_SOURCES} ${SRC_HEADERS})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE canis)
-target_include_directories(${PROJECT_NAME} PRIVATE canis)
 
-if (DEFINED ASSETS_DIR_NAME)
+#create_symlink
+#copy_directory
+if (WIN32)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/${ASSETS_DIR_NAME}/
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ASSETS_DIR_NAME})
+else()
     add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/${ASSETS_DIR_NAME}/ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ASSETS_DIR_NAME})
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+            ${CMAKE_SOURCE_DIR}/${ASSETS_DIR_NAME}/
+            ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${ASSETS_DIR_NAME})
 endif()
