@@ -80,15 +80,9 @@ public:
             c.AddComponent<Canis::ColorComponent>();
             c.AddComponent<Canis::MeshComponent>(mesh);
             c.AddComponent<Canis::SphereColliderComponent>(collider);
-
-            DecodeLookAtTarget("LookAtTarget", c);
-
-            Canis::ScriptComponent& sc = c.GetComponent<Canis::ScriptComponent>();
-            sc.Instance = sc.InstantiateScript();
-            sc.Instance->entity = c;
-            sc.Instance->OnCreate();
+            LookAtTarget& lookAtTarget = c.AddScript<LookAtTarget>();
             
-            static_cast<LookAtTarget*>(sc.Instance)->target = cube;
+            lookAtTarget.target = cube;
         }
     }
     

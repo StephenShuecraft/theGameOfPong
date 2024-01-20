@@ -4,30 +4,19 @@
 
 #include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
+#include <Canis/ECS/Components/ScriptComponent.hpp>
 #include <Canis/ECS/Components/TransformComponent.hpp>
-#include <Canis/ECS/Components/ColorComponent.hpp>
-#include <Canis/ECS/Components/MeshComponent.hpp>
-#include <Canis/ECS/Components/SphereColliderComponent.hpp>
 
 class LookAtTarget : public Canis::ScriptableEntity
 {
 public:
     Canis::Entity target;
 
-    void OnCreate()
-    {
-        
-    }
+    void OnCreate() {}
 
-    void OnReady()
-    {
-        
-    }
+    void OnReady() {}
 
-    void OnDestroy()
-    {
-
-    }
+    void OnDestroy() {}
 
     void OnUpdate(float _dt)
     {
