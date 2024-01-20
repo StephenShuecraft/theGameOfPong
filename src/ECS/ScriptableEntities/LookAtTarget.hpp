@@ -2,6 +2,7 @@
 #include <SDL_keyboard.h>
 #include <string>
 
+#include <Canis/Math.hpp>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/TransformComponent.hpp>
 #include <Canis/ECS/Components/ColorComponent.hpp>
@@ -30,18 +31,19 @@ public:
 
     void OnUpdate(float _dt)
     {
-        auto& transform = GetComponent<Canis::TransformComponent>();
+        using namespace Canis;
+        using namespace glm;
 
-        /*Canis::LookAt(
+        auto& transform = GetComponent<TransformComponent>();
+
+        LookAt(
             transform,
-            Canis::GetGlobalPosition(target.GetComponent<Canis::TransformComponent>()),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        );*/
+            GetGlobalPosition(target.GetComponent<TransformComponent>()),
+            vec3(0.0f, 1.0f, 0.0f)
+        );
 
-        Canis::RotateTowardsLookAt(transform, glm::vec3(45.0f), glm::vec3(0.0f, 1.0f, 0.0), 3.14f * _dt);
-
+        //Canis::RotateTowardsLookAt(transform, glm::vec3(45.0f), glm::vec3(0.0f, 1.0f, 0.0), 1.0f * _dt);
         //glm::vec3 angles = glm::degrees(glm::eulerAngles(transform.rotation));
-
         //Canis::Log("x: " + std::to_string(angles.x) + " y: " + std::to_string(angles.y) + " z: " + std::to_string(angles.z));
     }
 };
