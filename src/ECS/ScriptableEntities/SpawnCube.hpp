@@ -26,24 +26,25 @@ public:
 
         Canis::Entity emptyParent = CreateEntity();
         emptyParent.AddComponent<Canis::TransformComponent>(t);
-        DecodeRotate("Rotate", emptyParent);
+        emptyParent.AddScript<Rotate>();
         
 
         Canis::TransformComponent transform;
         transform.registry = &(GetScene().entityRegistry);
         transform.position.x += 3;
-        Canis::MeshComponent mesh;
-        Canis::SphereColliderComponent collider;
 
+        Canis::MeshComponent mesh;
         mesh.id = Canis::AssetManager::LoadModel("assets/models/white_block.obj");
         mesh.material = Canis::AssetManager::LoadMaterial("assets/materials/box.material");
+
+        Canis::SphereColliderComponent collider;
 
         Canis::Entity cube = CreateEntity();
         cube.AddComponent<Canis::TransformComponent>(transform);
         cube.AddComponent<Canis::ColorComponent>();
         cube.AddComponent<Canis::MeshComponent>(mesh);
         cube.AddComponent<Canis::SphereColliderComponent>(collider);
-        DecodeRotate("Rotate", cube);
+        cube.AddScript<Rotate>();
 
         cube.SetParent(emptyParent);
 
@@ -55,7 +56,6 @@ public:
 
         smallCube.SetPosition(glm::vec3(0.5f));
         smallCube.SetScale(glm::vec3(0.5f));
-
         smallCube.SetParent(cube);
 
         Canis::Entity smallSmallCube = CreateEntity();
@@ -66,7 +66,6 @@ public:
 
         smallSmallCube.SetPosition(glm::vec3(0.5f));
         smallSmallCube.SetScale(glm::vec3(0.5f));
-
         smallSmallCube.SetParent(smallCube);
 
         {

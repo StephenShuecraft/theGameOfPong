@@ -11,24 +11,17 @@
 class Rotate : public Canis::ScriptableEntity
 {
 public:
-    void OnCreate()
-    {
-        
-    }
+    void OnCreate() {}
 
-    void OnReady()
-    {
-        
-    }
+    void OnReady() {}
     
-    void OnDestroy()
-    {
-
-    }
+    void OnDestroy() {}
 
     void OnUpdate(float _dt)
     {
-        entity.Rotate(glm::vec3(glm::radians(30 * _dt), glm::radians(30 * _dt), glm::radians(30 * _dt)));
+        glm::vec3 allAxis = glm::vec3(glm::radians(30 * _dt), glm::radians(30 * _dt), glm::radians(30 * _dt));
+        glm::vec3 yAxis = glm::vec3( 0.0f, glm::radians(30 * _dt), 0.0f);
+        entity.Rotate(yAxis);
     }
 };
 
