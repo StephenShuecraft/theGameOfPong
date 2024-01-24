@@ -6,7 +6,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_SOURCE_DIR}/dist/${CMAKE_SYSTEM_N
 set(ASSETS_DIR_NAME assets)
 
 add_definitions(
-    -c
+    #-c
     #-msse2
     #-mavx
     #-mavx2
@@ -17,6 +17,10 @@ add_definitions(
     #-ftime-report
     #-Ofast
 )
+
+#if (MSVC)
+#    add_compile_options(-Wimplicit-function-declaration)
+#endif()
 
 add_subdirectory(external/canis)
 
