@@ -20,6 +20,7 @@
 #include "ECS/ScriptableEntities/SpawnCube.hpp"
 #include "ECS/ScriptableEntities/FlyCam.hpp"
 #include "ECS/ScriptableEntities/FPSCounter.hpp"
+#include "ECS/ScriptableEntities/Paddle.hpp"
 
 #include "ECS/Systems/GameOfLifeSystem.hpp"
 
@@ -45,6 +46,7 @@ int main(int argc, char* argv[])
     app.AddDecodeScriptableEntity(DecodeGameOfLifeLoader);
     app.AddDecodeScriptableEntity(DecodeSpawnCube);
     app.AddDecodeScriptableEntity(DecodeFlyCam);
+    app.AddDecodeScriptableEntity(DecodePaddle);
     app.AddDecodeScriptableEntity(DecodeFPSCounter);
 
     // decode component
@@ -59,13 +61,13 @@ int main(int argc, char* argv[])
     app.AddDecodeComponent(Canis::DecodeUIImageComponent);
     app.AddDecodeComponent(Canis::DecodeUISliderComponent);
     app.AddDecodeComponent(Canis::DecodeSpriteAnimationComponent);
-    app.AddDecodeComponent(Canis::DecodeCircleColliderComponent);
+    app.AddDecodeComponent(Canis::DecodeCircleColliderComponent); 
 
     app.AddScene(new Canis::Scene("sprite_demo", "assets/scenes/sprite_demo.scene"));
     app.AddScene(new Canis::Scene("game_of_life", "assets/scenes/game_of_life.scene"));
     app.AddScene(new Canis::Scene("3d_demo", "assets/scenes/3d_demo.scene"));
 
-    app.Run("Canis Demos", "3d_demo");
+    app.Run("Canis Demos", "sprite_demo"); 
 
-    return 0;
-}
+    return 0; 
+}  
