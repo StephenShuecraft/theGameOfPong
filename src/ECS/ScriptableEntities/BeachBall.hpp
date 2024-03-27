@@ -3,14 +3,18 @@
 #include <vector>
 #include <Canis/ScriptableEntity.hpp>
 #include <Canis/ECS/Components/RectTransformComponent.hpp>
+#include <Canis/ECS/Components/TextComponent.hpp>
 
 class BeachBall : public Canis::ScriptableEntity
 {
 private:
     glm::vec2   m_direction;
+    glm::vec4   m_color;
     float       m_speed;
     float       m_timeBetweenAnimation = 3.0f;
     float       m_countDown = 0.0f;
+    int         scorePlayer1 = 0;
+    int         scorePlayer2 = 0;
     unsigned int m_animIndex = 0;
     std::vector<glm::vec2> m_spawnPoints = {};
 public:
@@ -22,6 +26,7 @@ public:
     void OnReady()
     {
         m_direction = glm::vec2(1.0f, 0.4f);
+        m_color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
         m_speed = 150.0f;
     }
     
@@ -43,8 +48,14 @@ public:
         auto&  rectRightPaddle  = rightPaddle.GetComponent<RectTransformComponent>();
         auto&  colorRightPaddle  = rightPaddle.GetComponent<ColorComponent>();
 
-        auto& rect = GetComponent<Canis::RectTransformComponent>();
-        auto& colorRect  = rightPaddle.GetComponent<ColorComponent>();
+        Entity rectBox = entity.GetEntityWithTag("BOX");
+        auto& rect = rectBox.GetComponent<RectTransformComponent>();
+        auto& colorRect  = rectBox.GetComponent<ColorComponent>();
+
+        Entity textB = entity.GetEntityWithTag("TEXT");
+        auto&  textBox  = textB.GetComponent<RectTransformComponent>();
+        auto& textBoxText = textB.GetComponent<TextComponent>();
+        
 
         float halfSizeX = rect.size.x/2.0f;
         float halfSizeY = rect.size.y/2.0f;
@@ -57,6 +68,8 @@ public:
             rectLeftPaddle.position.x +  rectLeftPaddle.size.x  > rect.position.x &&
             rectLeftPaddle.position.y +  rectLeftPaddle.size.y  > rect.position.y){
 	        m_direction.x *= -1.0f;
+            m_speed += 40.0f;
+            m_color = colorLeftPaddle.color;
 
         }
 
@@ -67,6 +80,8 @@ public:
             rectRightPaddle.position.x +  rectRightPaddle.size.x > rect.position.x &&
             rectRightPaddle.position.y +  rectRightPaddle.size.y > rect.position.y){
 	        m_direction.x *= -1.0f;
+            m_speed += 40.0f;
+            m_color = colorRightPaddle.color;
 
         }
  
@@ -75,8 +90,12 @@ public:
         if (rect.position.x + halfSizeX >= GetWindow().GetScreenWidth()/2.0f ||
                 rect.position.x - halfSizeX <= GetWindow().GetScreenWidth()/-2.0f){
             m_direction.x *= -1.0f;
-            colorRect.color = colorRightPaddle.color;
-            
+            if(m_color == colorRightPaddle.color){
+                scorePlayer2++;
+            }
+            if(m_color == colorLeftPaddle.color){
+                scorePlayer1++;}
+
             
             }
 
@@ -84,8 +103,9 @@ public:
                 rect.position.y - halfSizeY <= GetWindow().GetScreenHeight()/-2.0f)
             m_direction.y *= -1.0f;
         
-        rect.position += (m_direction * (m_speed * _dt));
         
+        rect.position += (m_direction * (m_speed * _dt));
+        colorRect.color = m_color;
         if (GetInputManager().JustPressedKey(SDLK_p))
             m_speed += 50.0f;
         
@@ -100,6 +120,9 @@ public:
         //{
             //
         //}
+
+        textBoxText.text = "P1: "+ std::to_string(scorePlayer1) +" | P2:" + std::to_string(scorePlayer2);
+        
     }
 };
 

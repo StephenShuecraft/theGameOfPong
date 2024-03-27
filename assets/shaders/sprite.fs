@@ -14,7 +14,12 @@ uniform sampler2D mySampler;
 uniform float TIME;
 
 void main() {
-	vec2 movedUV = fragmentUV + vec2(TIME, TIME);
+	//if(TIME > 1000.0f) {
+		vec2 movedUV = fragmentUV - vec2(TIME, TIME) * (fragmentUV / vec2(TIME, TIME)) / (fragmentUV + vec2(TIME, TIME));
+		//TIME = 0.0f;}
+	//else{
+		//vec2 movedUV = fragmentUV * vec2(TIME, TIME);
+	//}
 	vec4 textureColor = texture(mySampler, movedUV);
 
 	if (textureColor == vec4(1.0, 1.0, 1.0, 1.0)){
